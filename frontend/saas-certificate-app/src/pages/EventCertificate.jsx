@@ -16,7 +16,6 @@ const EventCertificate = () => {
   const [textWidth, setTextWidth] = useState(0);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const [participant, setParticipant] = useState(null);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -96,14 +95,12 @@ const EventCertificate = () => {
         setError("Certificate already generated for this registration number.");
         return;
       }
-      setParticipant(participantData);
       setPreview(true);
     } catch (err) {
       setError("Error checking registration. Please try again.");
     }
   };
 
-  // After certificate is generated (e.g., after download or preview):
  async function markCertificateUsed(){
     if (!email) return;
     const participantRef = doc(db, "events", eventId, "participants", email.trim());
