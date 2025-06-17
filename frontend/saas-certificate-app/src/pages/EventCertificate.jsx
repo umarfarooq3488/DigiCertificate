@@ -14,6 +14,8 @@ const EventCertificate = () => {
   const stageRef = useRef();
   const textRef = useRef();
   const [textWidth, setTextWidth] = useState(0);
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -71,6 +73,29 @@ const EventCertificate = () => {
     pdf.save(`${name}_certificate.pdf`);
   };
 
+  // New: Validate participant before preview
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    if (!email) {
+      setError("Please enter your email or ID.");
+      return;
+    }
+    try {
+      // Try to get participant doc by email/ID
+      const participantRef = doc(db, "events", eventId, "participants", email.trim());
+      const participantSnap = await getDoc(participantRef);
+      if (!participantSnap.exists()) {
+        setError("You are not registered for this event.");
+        return;
+      }
+      // Optionally, use participantSnap.data().Name as the name
+      setPreview(true);
+    } catch (err) {
+      setError("Error checking registration. Please try again.");
+    }
+  };
+
   if (!event) return <div className="flex items-center justify-center min-h-[60vh] text-lg text-blue-700">Loading event...</div>;
 
   return (
@@ -79,13 +104,21 @@ const EventCertificate = () => {
         <h1 className="text-2xl md:text-3xl font-extrabold text-blue-700 text-center mb-2">{event.name} Certificate</h1>
         {!preview ? (
           <form
-            onSubmit={e => {
-              e.preventDefault();
-              setPreview(true);
-            }}
+            onSubmit={handleFormSubmit}
             className="w-full flex flex-col gap-4 items-center"
           >
-            <label className="block text-lg font-semibold text-blue-700 mb-2">Enter your name to generate your certificate:</label>
+            <label className="block text-lg font-semibold text-blue-700 mb-2">
+              Enter your email or ID to generate your certificate:
+            </label>
+            <input
+              type="text"
+              className="w-full max-w-xs border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center text-lg"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+              placeholder="Your Email or ID"
+            />
+            {/* Optionally, ask for name if not using from sheet */}
             <input
               type="text"
               className="w-full max-w-xs border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center text-lg"
@@ -93,8 +126,8 @@ const EventCertificate = () => {
               onChange={e => setName(e.target.value)}
               required
               placeholder="Your Name"
-              autoFocus
             />
+            {error && <div className="text-red-600 text-sm">{error}</div>}
             <button
               type="submit"
               className="w-full max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition shadow mt-2"

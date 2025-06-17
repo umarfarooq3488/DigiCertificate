@@ -80,7 +80,7 @@ const CreateEvent = ({ onEventCreated }) => {
           required
         />
       </div>
-      <button
+     <button
         type="submit"
         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition shadow"
         disabled={loading}
