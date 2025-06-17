@@ -105,22 +105,24 @@ const EventCertificate = () => {
         ) : (
           <>
             <div className="w-full flex flex-col items-center">
-              <div className="rounded-xl border border-blue-200 bg-blue-50 shadow-lg overflow-auto flex justify-center items-center p-4">
-                <Stage width={600} height={400} ref={stageRef} className="block">
-                  <Layer>
-                    <KonvaImage image={templateImage} width={600} height={400} />
-                    <Text
-                      ref={textRef}
-                      text={name}
-                      x={event.placeholder.x}
-                      y={event.placeholder.y}
-                      fontSize={event.placeholder.fontSize}
-                      fill={event.placeholder.color}
-                      fontFamily={event.placeholder.fontFamily}
-                      offsetX={textWidth / 2}
-                    />
-                  </Layer>
-                </Stage>
+              <div className="rounded-xl border border-blue-200 bg-blue-50 shadow-lg flex justify-center items-center p-4 w-full overflow-x-auto">
+                <div className="min-w-[600px]">
+                  <Stage width={600} height={400} ref={stageRef} className="block">
+                    <Layer>
+                      <KonvaImage image={templateImage} width={600} height={400} />
+                      <Text
+                        ref={textRef}
+                        text={name}
+                        x={event.placeholder.x}
+                        y={event.placeholder.y}
+                        fontSize={event.placeholder.fontSize}
+                        fill={event.placeholder.color}
+                        fontFamily={event.placeholder.fontFamily}
+                        offsetX={textWidth / 2}
+                      />
+                    </Layer>
+                  </Stage>
+                </div>
               </div>
               <div className="flex gap-4 mt-6">
                 <button
