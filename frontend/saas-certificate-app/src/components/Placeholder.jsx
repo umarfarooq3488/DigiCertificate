@@ -3,7 +3,7 @@ import { Stage, Layer, Image as KonvaImage, Text } from "react-konva";
 import useImage from "use-image";
 
 const FONT_FAMILIES = [
-  "Arial", "Roboto", "Lobster", "Times New Roman", "Georgia", "Courier New", "Verdana", "Tahoma", "Trebuchet MS", "Impact", "Comic Sans MS"
+  "Arial", "Roboto", "Lobster", "Great Vibes", "Times New Roman", "Georgia", "Courier New", "Verdana", "Tahoma", "Trebuchet MS", "Impact", "Comic Sans MS"
 ];
 
 const PlaceholderEditor = ({ imageUrl, initialPos, onSave }) => {

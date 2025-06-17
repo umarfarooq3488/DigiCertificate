@@ -36,14 +36,12 @@ const AdminPanel = () => {
         setEvents(eventsList);
       } catch (err) {
         setEvents([]);
-        // Optionally, set an error state here if you want to display an error message
-      } finally {
+       } finally {
         setLoading(false);
       }
     };
     fetchEvents();
   }, [showCreateEvent, editingEventId]);
-   // refresh list after creating event or editing placeholder
 
   const handlePlaceholderSave = async (eventId, pos) => {
     await updateDoc(doc(db, "events", eventId), { placeholder: pos });
