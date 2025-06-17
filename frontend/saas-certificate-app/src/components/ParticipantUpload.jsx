@@ -34,12 +34,10 @@ const ParticipantUpload = ({ eventId }) => {
     if (!eventId || participants.length === 0) return;
     setSaving(true);
     try {
-      // Use email or ID as document ID for each participant
       for (const p of participants) {
-        // Use "Email" or "ID" as the unique key, adjust as per your sheet
         const docId = p.Email || p.ID || p.Id || p.id || p.email;
         if (!docId) continue;
-        await setDoc(doc(db, "events", eventId, "participants", docId), p);
+        await setDoc(doc(db, "events", eventId, "participants", docId), { ...p, used: false });
       }
       setSuccess(true);
     } catch (err) {

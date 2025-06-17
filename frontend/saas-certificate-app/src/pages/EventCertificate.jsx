@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config/Firebase";
 import { Stage, Layer, Image as KonvaImage, Text } from "react-konva";
 import useImage from "use-image";
@@ -16,6 +16,7 @@ const EventCertificate = () => {
   const [textWidth, setTextWidth] = useState(0);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [participant, setParticipant] = useState(null);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -40,6 +41,7 @@ const EventCertificate = () => {
 
   // Download as image
   const handleDownload = () => {
+    markCertificateUsed()
     if (!stageRef.current || !templateImage) {
       alert("Certificate is not ready yet. Please wait for the image to load.");
       return;
@@ -59,6 +61,7 @@ const EventCertificate = () => {
 
   // Download as PDF
   const handleDownloadPDF = () => {
+    markCertificateUsed()
     if (!stageRef.current || !templateImage) {
       alert("Certificate is not ready yet. Please wait for the image to load.");
       return;
@@ -82,18 +85,29 @@ const EventCertificate = () => {
       return;
     }
     try {
-      // Try to get participant doc by email/ID
       const participantRef = doc(db, "events", eventId, "participants", email.trim());
       const participantSnap = await getDoc(participantRef);
       if (!participantSnap.exists()) {
         setError("You are not registered for this event.");
         return;
       }
-      // Optionally, use participantSnap.data().Name as the name
+      const participantData = participantSnap.data();
+      if (participantData.used) {
+        setError("Certificate already generated for this registration number.");
+        return;
+      }
+      setParticipant(participantData);
       setPreview(true);
     } catch (err) {
       setError("Error checking registration. Please try again.");
     }
+  };
+
+  // After certificate is generated (e.g., after download or preview):
+ async function markCertificateUsed(){
+    if (!email) return;
+    const participantRef = doc(db, "events", eventId, "participants", email.trim());
+    await updateDoc(participantRef, { used: true });
   };
 
   if (!event) return <div className="flex items-center justify-center min-h-[60vh] text-lg text-blue-700">Loading event...</div>;

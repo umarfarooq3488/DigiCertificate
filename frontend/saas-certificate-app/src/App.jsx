@@ -7,6 +7,7 @@ import AdminPanel from "./pages/AdminPanel";
 import CreateEvent from "./pages/CreateEvent";
 import EventCertificate from "./pages/EventCertificate";
 import PrivateRoute from "./components/PrivateRoute";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/create-event" element={<PrivateRoute><CreateEvent /></PrivateRoute>} />
         <Route path="/event/:eventId" element={<EventCertificate />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }

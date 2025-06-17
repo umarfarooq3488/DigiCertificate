@@ -57,11 +57,6 @@ const Home = () => (
         </div>
       ))}
     </section>
-
-    {/* Footer */}
-    <footer className="w-full text-center py-6 bg-blue-50 border-t border-blue-100 text-gray-400 text-sm">
-      &copy; {new Date().getFullYear()} DigiCertificate. Made for universities and event organizers.
-    </footer>
   </div>
 );
 
