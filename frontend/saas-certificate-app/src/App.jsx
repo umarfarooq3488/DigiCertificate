@@ -8,6 +8,8 @@ import CreateEvent from "./pages/CreateEvent";
 import EventCertificate from "./pages/EventCertificate";
 import PrivateRoute from "./components/PrivateRoute";
 import Footer from "./components/Footer";
+import HowToUse from "./pages/HowToUse";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/admin" element={<PrivateRoute><AdminPanel /></PrivateRoute>} />
         <Route path="/create-event" element={<PrivateRoute><CreateEvent /></PrivateRoute>} />
         <Route path="/event/:eventId" element={<EventCertificate />} />
+        <Route path="/how-to-use" element={<HowToUse />} />
+        <Route path="/about" element={<AboutUs />} />
       </Routes>
       <Footer />
     </Router>
