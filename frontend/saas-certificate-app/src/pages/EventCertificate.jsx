@@ -149,9 +149,9 @@ const EventCertificate = () => {
         ) : (
           <>
             <div className="w-full flex flex-col items-center">
-              <div className="rounded-xl border border-blue-200 bg-blue-50 shadow-lg flex justify-center items-center p-4 w-full overflow-x-auto">
-                <div className="min-w-[600px]">
-                  <Stage width={600} height={400} ref={stageRef} className="block">
+            <div className="w-full overflow-x-auto">
+                <div className="rounded-xl border border-blue-200 bg-blue-50 shadow-lg flex justify-center items-center p-4 min-w-[600px] mx-auto">
+                   <Stage width={600} height={400} ref={stageRef} className="block">
                     <Layer>
                       <KonvaImage image={templateImage} width={600} height={400} />
                       <Text
